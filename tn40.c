@@ -4944,7 +4944,7 @@ static int bdx_get_ts_info(struct net_device *netdev,
 static void bdx_ethtool_ops(struct net_device *netdev)
 {
 
-	static struct ethtool_ops bdx_ethtool_ops = {
+	static struct new_ethtool_ops bdx_ethtool_ops = {
 #ifdef ETHTOOL_GLINKSETTINGS
 		.get_link_ksettings = bdx_get_link_ksettings,
 #else
