@@ -4453,7 +4453,7 @@ int bdx_get_link_ksettings(struct net_device *netdev,
 
 }
 
-#else
+#endif
 
 /*
  * bdx_get_settings - Get device-specific settings.
@@ -4483,7 +4483,7 @@ static int bdx_get_settings(struct net_device *netdev, struct ethtool_cmd *ecmd)
 	return 0;
 }
 
-#endif
+//#endif
 
 #ifdef ETHTOOL_SLINKSETTINGS
 
@@ -4496,7 +4496,7 @@ int bdx_set_link_ksettings(struct net_device *netdev,
 
 }
 
-#else
+#endif
 
 /*
  * bdx_set_settings - set device-specific settings.
@@ -4514,7 +4514,7 @@ static int bdx_set_settings(struct net_device *netdev, struct ethtool_cmd *ecmd)
 
 }
 
-#endif
+//#endif
 
 /*
  * bdx_get_drvinfo - Report driver information
@@ -4944,17 +4944,24 @@ static int bdx_get_ts_info(struct net_device *netdev,
 static void bdx_ethtool_ops(struct net_device *netdev)
 {
 
+#ifdef ETHTOOL_GLINKSETTINGS
 	static struct new_ethtool_ops bdx_ethtool_ops = {
+#else
+	static struct ethtool_ops bdx_ethtool_ops = {
+#endif
+
 #ifdef ETHTOOL_GLINKSETTINGS
 		.get_link_ksettings = bdx_get_link_ksettings,
-#else
-		.get_settings = bdx_get_settings,
+//#else
+
 #endif
 #ifdef ETHTOOL_SLINKSETTINGS
 		.set_link_ksettings = bdx_set_link_ksettings,
-#else
-		.set_settings = bdx_set_settings,
+//#else
+
 #endif
+		.get_settings = bdx_get_settings,
+		.set_settings = bdx_set_settings,
 		.get_drvinfo = bdx_get_drvinfo,
 		.get_link = ethtool_op_get_link,
 		.get_coalesce = bdx_get_coalesce,
